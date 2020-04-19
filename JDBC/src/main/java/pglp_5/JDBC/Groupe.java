@@ -1,7 +1,6 @@
 package pglp_5.JDBC;
 
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;

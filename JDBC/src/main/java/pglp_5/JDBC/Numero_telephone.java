@@ -1,20 +1,29 @@
 package pglp_5.JDBC;
 
-
 import java.io.Serializable;
 
 public class Numero_telephone implements Serializable{
   
 	private static final long serialVersionUID = 1L;
-	private Type_tel type;
+	private int id;
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	private String type;
 	private String numero;
 	
-	public Numero_telephone(Type_tel type,String numero) {
-		this.type=type;
+	public Numero_telephone(int id,String string,String numero) {
+		this.type=string;
 		this.numero=numero;
+		this.id=id;
 	}
 	
-	public Type_tel getType() {
+	public String getType() {
 		return type;
 	}
 	

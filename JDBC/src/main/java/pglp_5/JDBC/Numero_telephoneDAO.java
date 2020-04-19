@@ -1,6 +1,5 @@
 package pglp_5.JDBC;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,11 +7,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class Numero_telephoneDAO extends DAO<Numero_telephone>{
 
-    @Override
+    public Numero_telephoneDAO() throws SQLException {
+		super();
+	}
+
+	@Override
 	public Numero_telephone create(Numero_telephone obj) throws IOException {
     	 FileOutputStream fos = new FileOutputStream(obj.getNumero());
 	      ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -23,19 +29,24 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
 	}
 
 	@Override
-	public Numero_telephone find(String id) throws IOException, ClassNotFoundException {
-		File f = new File(id);
-		Numero_telephone num = null;
-	    Object deserialized = null;
-            if (f.exists()) {
-                byte[] fileContent = Files.readAllBytes(f.toPath());
-                deserialized = deserialize(fileContent);
-            } else {
-                System.out.println("Le fichier n'existe pas!");
-            }
-            num = (Numero_telephone) deserialized;
-            num.affiche();
-            return num;
+	public Numero_telephone find(int id) throws IOException, ClassNotFoundException {
+		Numero_telephone num =null;      
+	      
+		    try {
+		      ResultSet result = this.con.createStatement(
+		        ResultSet.TYPE_SCROLL_INSENSITIVE,
+		        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Numero_telephone WHERE num_id = " + id);
+		      if(result.first())
+		        num = new Numero_telephone(
+		          id,
+		          result.getString("type"),
+		          result.getString("numero"
+		        ));         
+		    } catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+		    return num;
+		  
 	}
 
 	@Override

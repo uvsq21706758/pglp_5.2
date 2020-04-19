@@ -1,6 +1,5 @@
 package pglp_5.JDBC;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,8 +7,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class GroupeDAO extends DAO<Groupe>{
+
+	public GroupeDAO() throws SQLException {
+		super();
+	}
 
 	@Override
 	public Groupe create(Groupe obj) throws IOException {
@@ -22,10 +27,10 @@ public class GroupeDAO extends DAO<Groupe>{
 	}
 
 	@Override
-	public Groupe find(String id) throws IOException, ClassNotFoundException {
-		File f = new File(id);
+	public Groupe find(int id) throws IOException, ClassNotFoundException {
+		//File f = new File(id);
 		Groupe grp = null;
-	    Object deserialized = null;
+	   /* Object deserialized = null;
             if (f.exists()) {
                 byte[] fileContent = Files.readAllBytes(f.toPath());
                 deserialized = deserialize(fileContent);
@@ -33,7 +38,7 @@ public class GroupeDAO extends DAO<Groupe>{
                 System.out.println("Le fichier n'existe pas!");
             }
             grp = (Groupe) deserialized;
-            grp.print();
+            grp.print();*/
             return grp;
 	}
 

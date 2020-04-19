@@ -1,12 +1,23 @@
 package pglp_5.JDBC;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 
 public abstract class DAO <T>{
+	String driver ="org.apache.derby.jdbc.EmbeddedDriver";
+	String dburl = "jdbc:derby:data;create=true";
+	
+	Connection con;
+	public DAO() throws SQLException {
+	   con=DriverManager.getConnection(dburl);
+	}
 	
 	public abstract T create(T obj) throws IOException;
    
-	public abstract T find(String id) throws IOException, ClassNotFoundException;
+	public abstract T find(int id) throws IOException, ClassNotFoundException;
     
 	public abstract T update(T obj) throws IOException;
     
