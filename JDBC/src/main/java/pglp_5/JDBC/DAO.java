@@ -15,13 +15,13 @@ public abstract class DAO <T>{
 	   con=DriverManager.getConnection(dburl);
 	}
 	
-	public abstract T create(T obj) throws IOException;
+	public abstract T create(T obj) throws IOException, SQLException;
    
-	public abstract T find(int id) throws IOException, ClassNotFoundException;
+	public abstract T find(int id) throws IOException, ClassNotFoundException, SQLException;
     
 	public abstract T update(T obj) throws IOException;
     
-	public abstract void delete(T obj);
+	public abstract void delete(T obj)throws SQLException;
 	
 	public Object deserialize(final byte[] bytes) throws ClassNotFoundException,
     IOException {
