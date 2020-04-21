@@ -36,4 +36,7 @@ public abstract class DAO <T>{
 	        o.writeObject(obj);
 	        return b.toByteArray();
 	    }
+	 public Connection getConnect() {
+	        return con;
+	    }
 }

@@ -21,15 +21,14 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
 
 	@Override
 	public Numero_telephone create(Numero_telephone obj) throws IOException, SQLException {
-        
+        this.getConnect();
         String telephoneTABLE = "CREATE TABLE Telephones("
                 + "num_id int,"
                 + "type varchar(30),"
                 + "numero varchar(30),"
-                + "PRIMARY KEY (telephone),"
-               // + "FOREIGN KEY (ID_pero) REFERENCES Personne1(ID)"
+                + "PRIMARY KEY (num_id)"
                 + ")";
-        Statement stmt = con.createStatement();
+        Statement stmt = getConnect().createStatement();
         stmt.execute(telephoneTABLE);
         if(con != null) {
             
