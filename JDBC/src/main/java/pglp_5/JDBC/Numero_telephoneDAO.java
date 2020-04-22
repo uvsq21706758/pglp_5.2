@@ -51,9 +51,7 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
 
 	@Override
 	public Numero_telephone create(Numero_telephone obj) throws IOException, SQLException {
-		  
-	       
-	                String insertnum= ("insert into Telephones"
+		       String insertnum= ("insert into Telephones"
 	                        + " values (?, ?, ?)");
 	                PreparedStatement prpstmt = getConnect().prepareStatement(insertnum);
 

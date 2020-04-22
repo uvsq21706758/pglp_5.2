@@ -54,18 +54,25 @@ public class Personne1 implements Composite,Serializable{
  	
 	private final String nom;
      private final String prenom;
-     private final String fonction;
+     public int getId() {
+		return id;
+	}
+
+	private final String fonction;
      private final LocalDate date_naissance;
      private final ArrayList<Numero_telephone> num_telephone;
+     private final int id;
      
      public static class Builder{
+    	 private final int id;
     	 private final String nom;
          private final String prenom;
          private String fonction;
          private LocalDate date_naissance;
          private ArrayList<Numero_telephone> num_telephone;
         
-         public Builder(final String nom,final String prenom,final String fonction,final LocalDate date_naissance) {
+         public Builder(final int id,final String nom,final String prenom,final String fonction,final LocalDate date_naissance) {
+        	 this.id=id;
         	 this.nom=nom;
         	 this.prenom=prenom;
         	 this.fonction = fonction;
@@ -83,7 +90,8 @@ public class Personne1 implements Composite,Serializable{
        }
      }
      private Personne1(Builder builder) {
- 		nom=builder.nom;
+ 		id=builder.id;
+    	nom=builder.nom;
  		prenom=builder.prenom;
  		fonction=builder.fonction;
  		date_naissance = builder.date_naissance;

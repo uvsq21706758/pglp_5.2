@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -57,13 +58,21 @@ public class Personne1DAO extends DAO<Personne1>{
 	      
 	    }
 
-	public Personne1 create(Personne1 obj) throws IOException{
-		 FileOutputStream fos = new FileOutputStream(obj.getNom());
-	      ObjectOutputStream oos = new ObjectOutputStream(fos);
-	      oos.writeObject(obj);
-	      oos.close();
-	        System.out.println("Le fichier est créé!");
-	        return obj;
+	public Personne1 create(Personne1 obj) throws IOException, SQLException{
+		 String insertperso =("insert into Personnes"
+                 + " values (?, ?, ?,?,?)");
+         PreparedStatement prpstmt = getConnect().prepareStatement(insertperso);
+
+         prpstmt.setInt(1, obj.getId());
+         prpstmt.setString(2, obj.getNom());
+         prpstmt.setString(3, obj.getPrenom());
+         prpstmt.setString(4, obj.getFonction());
+         prpstmt.setString(5, obj.getDate_naissance().toString());
+         prpstmt.executeUpdate();
+         prpstmt.close();
+         System.out.println("\n ligne insérer est bien enregistée ");
+      
+        return obj;
 	}
 
 	public Personne1 find(int id) throws IOException, ClassNotFoundException{
