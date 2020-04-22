@@ -11,8 +11,9 @@ public class App {
 		   Numero_telephone portable1 =new Numero_telephone(2,"056778889", "fix");
 		   numjdbc = DAOFactory.getNumero_telephoneDAO();
 		  // numjdbc.create(portable);
-		  // numjdbc.create(portable1);
-		   numjdbc.find(2);
-		  // numjdbc.delete(portable);
+		   //numjdbc.create(portable1);
+		  // numjdbc.find(2);
+		   numjdbc.delete(portable);
+		   
 	  }
 }

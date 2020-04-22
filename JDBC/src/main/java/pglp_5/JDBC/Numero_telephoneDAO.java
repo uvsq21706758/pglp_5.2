@@ -67,9 +67,8 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
 	@Override
 	public Numero_telephone find(int id) throws IOException, ClassNotFoundException, SQLException {
 		Numero_telephone num = null;
-       
-                Statement stmt = getConnect().createStatement();
-                    ResultSet rs = stmt.executeQuery("select * from Telephones"
+        Statement stmt = getConnect().createStatement();
+        ResultSet rs = stmt.executeQuery("select * from Telephones"
                             + " where id_num=" + id);
                     System.out.println("La ligne rechercher dans la table Telephones: \n");
 	                System.out.println("id_num\t type\t numero");
@@ -103,12 +102,14 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
 
 	@Override
 	public void delete(Numero_telephone obj) throws SQLException {
-		 Statement stmt = con.createStatement();
-         stmt.execute("DROP TABLE Telephones");
-         if(con != null) {
-             
-                 System.out.println("Table supprimée");
-                 con.close();}
+		 Statement stmt = getConnect().createStatement();
+         ResultSet rs = stmt.executeQuery("select * from Telephones where id_num=" + obj.getId());
+             if (rs.next()) {
+            	  stmt.executeUpdate("delete from Telephones where id_num="+obj.getId());
+             	 System.out.printf("Ligne supprimée");
+             rs.close();
+             stmt.close();
+	}
 	}
 
 }
