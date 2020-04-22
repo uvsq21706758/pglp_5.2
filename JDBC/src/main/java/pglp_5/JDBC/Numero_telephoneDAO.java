@@ -1,13 +1,6 @@
 package pglp_5.JDBC;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -96,13 +89,15 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
 
 	@Override
 	public Numero_telephone update(Numero_telephone obj) throws IOException, SQLException {
-		 String query = "update Telephones set type = ? where id_num = ?";
-	      PreparedStatement preparedStmt = getConnect().prepareStatement(query);
-	      preparedStmt.setString(2, obj.getType());
-	      preparedStmt.setString(3, obj.getNumero());
-	      preparedStmt.executeUpdate();
-	      preparedStmt.close();
-		return obj;
+		Statement stmt = getConnect().createStatement();
+	    ResultSet result = stmt.executeQuery("select * from Telephones where id_num=" + obj.getId());
+	                if (result.next()) {
+	                	this.delete(obj);
+	                    this.create(obj);
+	                    System.out.println("La mise à jour du table Telephones effectuée");
+	                }
+	                stmt.close();
+	                return obj;
 	}
 
 	@Override
@@ -111,7 +106,7 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
          ResultSet rs = stmt.executeQuery("select * from Telephones where id_num=" + obj.getId());
              if (rs.next()) {
             	  stmt.executeUpdate("delete from Telephones where id_num="+obj.getId());
-             	 System.out.printf("Ligne supprimée");
+             	 System.out.printf("Ligne supprimée \n");
              rs.close();
              stmt.close();
 	}

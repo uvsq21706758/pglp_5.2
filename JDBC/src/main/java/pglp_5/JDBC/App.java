@@ -18,5 +18,10 @@ public class App {
 		   numjdbc.find(2);
 		   numjdbc.delete(portable);
 		   
+		   DAO<Personne1> persojdbc;
+		   Personne1DAO perso=new Personne1DAO();
+		   perso.createtable();
+		   perso.affichetable();
+		   
 	  }
 }
