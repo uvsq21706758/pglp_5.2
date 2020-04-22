@@ -12,7 +12,7 @@ public class App {
 		   numjdbc = DAOFactory.getNumero_telephoneDAO();
 		  // numjdbc.create(portable);
 		  // numjdbc.create(portable1);
-		   numjdbc.find(1);
+		   numjdbc.find(2);
 		  // numjdbc.delete(portable);
 	  }
 }

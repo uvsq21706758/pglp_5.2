@@ -54,7 +54,7 @@ public class Numero_telephone implements Serializable{
 	    }
 
 	public void affiche() {
-		System.out.println( ": \nType: "
+		System.out.println( " \nType: "
                 + this.type + "\nNumerp: "
                 + this.numero + "\n");
 	}

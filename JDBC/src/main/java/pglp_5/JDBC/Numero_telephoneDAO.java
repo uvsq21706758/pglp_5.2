@@ -66,25 +66,20 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
 
 	@Override
 	public Numero_telephone find(int id) throws IOException, ClassNotFoundException, SQLException {
-		Numero_telephone num =null;      
-	      
-		   
-		      ResultSet result = this.con.createStatement(
-		        ResultSet.TYPE_SCROLL_INSENSITIVE,
-		        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Telephones WHERE id_num = " + id);
-		      System.out.println("Table Telephones: \n");
-              System.out.println("id_num\t type\t numero");
-		      if(result.first())
-		        num = new Numero_telephone(
-		          id,
-		          result.getString("type"),
-		          result.getString("numero"
-		        )); 
-		      
-		      if(con != null) {
-		    	  con.close();
-	                } 
-		    return num;
+		Numero_telephone num = null;
+       
+                Statement stmt = getConnect().createStatement();
+                    ResultSet rs = stmt.executeQuery("select * from Telephones"
+                            + " where id_num=" + id);
+                    System.out.println("La ligne rechercher dans la table Telephones: \n");
+	                System.out.println("id_num\t type\t numero");
+                        if (rs.next()) {
+                        	 System.out.printf("%d\t%s\t%s%n", rs.getInt("id_num"),
+     	                            rs.getString("type"), rs.getString("numero"));
+                        rs.close();
+                        stmt.close();
+                    }
+       return num;
 		  
 	}
 
