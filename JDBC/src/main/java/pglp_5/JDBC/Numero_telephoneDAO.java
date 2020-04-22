@@ -60,9 +60,9 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
 	                prpstmt.setString(3, obj.getNumero());
 
 	                prpstmt.executeUpdate();
-	                prpstmt.close();
+	               
 	                System.out.println("\n ligne insérer est bien enregistée ");
-	             
+	              prpstmt.close();
 	            return obj;
 	        
 	}

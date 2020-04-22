@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -67,7 +68,7 @@ public class Personne1DAO extends DAO<Personne1>{
          prpstmt.setString(2, obj.getNom());
          prpstmt.setString(3, obj.getPrenom());
          prpstmt.setString(4, obj.getFonction());
-         prpstmt.setString(5, obj.getDate_naissance().toString());
+         prpstmt.setDate(5, Date.valueOf(obj.getDate_naissance()));
          prpstmt.executeUpdate();
          prpstmt.close();
          System.out.println("\n ligne insérer est bien enregistée ");
@@ -75,46 +76,47 @@ public class Personne1DAO extends DAO<Personne1>{
         return obj;
 	}
 
-	public Personne1 find(int id) throws IOException, ClassNotFoundException{
-		//File f = new File(id);
-	    Personne1 p = null;
-	   /* Object deserialized = null;
-            if (f.exists()) {
-                byte[] fileContent = Files.readAllBytes(f.toPath());
-                deserialized = deserialize(fileContent);
-            } else {
-                System.out.println("Le fichier n'existe pas!");
-            }
-             p = (Personne1) deserialized;
-            p.print();*/
-            return p;
+	public Personne1 find(int id) throws IOException, ClassNotFoundException, SQLException{
+		Personne1 perso = null;
+        Statement stmt = getConnect().createStatement();
+        ResultSet rs = stmt.executeQuery("select * from Personnes"
+                            + " where id_num=" + id);
+                    System.out.println("La ligne rechercher dans la table Personnes: \n");
+	                System.out.println("id_perso\t nom\t prenom\t fonction\t date naissance");
+                        if (rs.next()) {
+                        	 System.out.printf("%d\t%s \t%s\t %s\t %s%n", rs.getInt("id_perso"),
+            	                     rs.getString("nom"), rs.getString("prenom"),
+            	                     rs.getString("fonction"),rs.getString("date_naissance"));
+            	         
+                        rs.close();
+                        stmt.close();
+                    }
+       return perso;
         
     }
 	
 
-	public Personne1 update(Personne1 obj) throws IOException {
-		 File f = new File(obj.getNom());
-		    if (f.exists()) {
-                FileOutputStream fos = new FileOutputStream(f);
-		        ObjectOutputStream oos = new ObjectOutputStream(fos);
-		        oos.writeObject(obj);
-		        oos.close();
-		        System.out.println("Mise a jour effectuée");
-		     
-		    } else {
-		      System.out.println("fichier n'existe pas");
-		    }
-
-	        return obj;
+	public Personne1 update(Personne1 obj) throws IOException, SQLException {
+		Statement stmt = getConnect().createStatement();
+	    ResultSet result = stmt.executeQuery("select * from Personnes where id_perso=" + obj.getId());
+	                if (result.next()) {
+	                	this.delete(obj);
+	                    this.create(obj);
+	                    System.out.println("La mise à jour du table Personnes effectuée");
+	                }
+	                stmt.close();
+	                return obj;
 	}
 
-	public void delete(Personne1 obj) {
-		 File f = new File(obj.getNom());
-		    if (f.exists() && f.delete()) {
-		      System.out.println("fichier supprimé");
-		    } else {
-		      System.out.println("fichier n'existe pas");
-		    }
+	public void delete(Personne1 obj) throws SQLException {
+		Statement stmt = getConnect().createStatement();
+        ResultSet rs = stmt.executeQuery("select * from Personnes where id_perso=" + obj.getId());
+            if (rs.next()) {
+           	  stmt.executeUpdate("delete from Personnes where id_perso="+obj.getId());
+            	 System.out.printf("Ligne supprimée \n");
+            rs.close();
+            stmt.close();
+            }
 	}
 
 }
