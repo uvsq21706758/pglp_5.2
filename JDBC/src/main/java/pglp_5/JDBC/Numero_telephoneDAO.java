@@ -20,22 +20,46 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
     public Numero_telephoneDAO() throws SQLException {
 		super();
 	}
-
-	@Override
-	public Numero_telephone create(Numero_telephone obj) throws IOException, SQLException {
-		  DatabaseMetaData dbmd = getConnect().getMetaData();
+    
+    public void createtable() throws SQLException {
+    	 DatabaseMetaData dbmd = getConnect().getMetaData();
 	        ResultSet rs = dbmd.getTables(null, null,"Telephones".toUpperCase(), null);
 	        String createtel="CREATE TABLE Telephones("
-                    + "id_num int,"
-                    + "numero varchar(30),"
-                    + "type varchar(30),"
-                    + "PRIMARY KEY (id_num)"
-                    + ")";
+                 + "id_num int,"
+                 + "numero varchar(30),"
+                 + "type varchar(30),"
+                 + "PRIMARY KEY (id_num)"
+                 + ")";
 	         Statement stmt = getConnect().createStatement();
 	            if (!rs.next()) {
 	            	stmt.execute(createtel);
-	            }
-	            
+	            }	
+	            System.out.println("Table Telephones crée");
+	            rs.close();
+	            stmt.close();
+    }
+    public void affichetable() throws SQLException {
+    	DatabaseMetaData dbmd = getConnect().getMetaData();
+        ResultSet rs = dbmd.getTables(null, null,"Telephones".toUpperCase(), null);
+        Statement stmt = getConnect().createStatement();
+        
+    	rs = stmt.executeQuery("SELECT * FROM Telephones");
+
+         System.out.println("Table Telephones: \n");
+         System.out.println("id_num\t type\t numero");
+         while (rs.next()) {
+             System.out.printf("%d\t%s\t%s%n", rs.getInt("id_num"),
+                     rs.getString("type"), rs.getString("numero"));
+         }
+         rs.close();
+         stmt.close();
+      
+    }
+
+	@Override
+	public Numero_telephone create(Numero_telephone obj) throws IOException, SQLException {
+		  
+	       
 	                String insertnum= ("insert into Telephones"
 	                        + " values (?, ?, ?)");
 	                PreparedStatement prpstmt = getConnect().prepareStatement(insertnum);
@@ -46,20 +70,8 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
 
 	                prpstmt.executeUpdate();
 	                prpstmt.close();
-
-	                rs = stmt.executeQuery("SELECT * FROM Telephones");
-
-	                System.out.println("Table Telephones: \n");
-	                System.out.println("id_num\t type\t numero");
-	                while (rs.next()) {
-	                    System.out.printf("%d\t%s\t%s%n", rs.getInt("id_num"),
-	                            rs.getString("type"), rs.getString("numero"));
-	                }
-	                
-	                System.out.println("\n Table enregistée ");
-	                rs.close();
-	               stmt.close();
-	            
+	                System.out.println("\n ligne insérer est bien enregistée ");
+	             
 	            return obj;
 	        
 	}
@@ -83,21 +95,14 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
 	}
 
 	@Override
-	public Numero_telephone update(Numero_telephone obj) throws IOException {
-		File f = new File(obj.getNumero());
-	    if (f.exists()) {
-	      
-	        FileOutputStream fos = new FileOutputStream(f);
-	        ObjectOutputStream oos = new ObjectOutputStream(fos);
-	        oos.writeObject(obj);
-	        oos.close();
-	        System.out.println("Mise a jour effectuée");
-	     
-	    } else {
-	      System.out.println("fichier n'existe pas");
-	    }
-
-        return obj;
+	public Numero_telephone update(Numero_telephone obj) throws IOException, SQLException {
+		 String query = "update Telephones set type = ? where id_num = ?";
+	      PreparedStatement preparedStmt = getConnect().prepareStatement(query);
+	      preparedStmt.setString(2, obj.getType());
+	      preparedStmt.setString(3, obj.getNumero());
+	      preparedStmt.executeUpdate();
+	      preparedStmt.close();
+		return obj;
 	}
 
 	@Override

@@ -17,6 +17,14 @@ public class Numero_telephone implements Serializable{
 	private String type;
 	private String numero;
 	
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
 	public Numero_telephone(int id,String string,String numero) {
 		this.type=string;
 		this.numero=numero;

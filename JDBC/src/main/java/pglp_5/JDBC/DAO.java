@@ -19,7 +19,7 @@ public abstract class DAO <T>{
    
 	public abstract T find(int id) throws IOException, ClassNotFoundException, SQLException;
     
-	public abstract T update(T obj) throws IOException;
+	public abstract T update(T obj) throws IOException, SQLException;
     
 	public abstract void delete(T obj)throws SQLException;
 	
