@@ -10,9 +10,9 @@ import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class GroupeDAO extends DAO<Groupe>{
+public class GroupeDAOJDBC extends DAO<Groupe>{
 
-	public GroupeDAO() throws SQLException {
+	public GroupeDAOJDBC() throws SQLException {
 		super();
 	}
 

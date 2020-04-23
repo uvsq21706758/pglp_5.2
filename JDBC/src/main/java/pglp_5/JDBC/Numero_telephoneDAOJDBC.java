@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public class Numero_telephoneDAO extends DAO<Numero_telephone>{
+public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
 
-    public Numero_telephoneDAO() throws SQLException {
+    public Numero_telephoneDAOJDBC() throws SQLException {
 		super();
 	}
     
@@ -30,6 +30,12 @@ public class Numero_telephoneDAO extends DAO<Numero_telephone>{
 	            System.out.println("Table Telephones crée");
 	            rs.close();
 	            stmt.close();
+    }
+    public void droptable() throws SQLException {
+    	Statement stmt = getConnect().createStatement();
+    	stmt.execute("DROP TABLE Telephones");
+    	stmt.close();
+    	
     }
     public void affichetable() throws SQLException {
     	DatabaseMetaData dbmd = getConnect().getMetaData();
