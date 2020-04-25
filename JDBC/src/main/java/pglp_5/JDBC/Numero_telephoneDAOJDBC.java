@@ -98,6 +98,7 @@ public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
     	stmt.execute("DROP TABLE Association");
     	stmt.execute("DROP TABLE Telephones");
     	stmt.close();
+    	System.out.println("Tables supprimées \n");
     	
     }
     public void affichetable() throws SQLException {

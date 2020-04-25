@@ -120,6 +120,7 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
             if(rs.next()) {
             	id_num = rs.getInt("id_num");
               stmt.executeUpdate("delete from Association where id_perso="+obj.getId()+"and id_num="+id_num);
+              stmt.executeUpdate("delete from persoingroupe where id_perso="+obj.getId());
               stmt.executeUpdate("delete from Telephones where id_num="+id_num);
            	  stmt.executeUpdate("delete from Personnes where id_perso="+obj.getId());
             	 System.out.printf("Ligne supprimée \n");
@@ -131,6 +132,7 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
 	 public void droptable() throws SQLException {
 	    	Statement stmt = getConnect().createStatement();
 	    	stmt.execute("DROP TABLE Association");
+	    	stmt.execute("DROP TABLE persoingroupe");
 	    	stmt.execute("DROP TABLE Personnes");
 	    	stmt.close();
 	    	System.out.println("Tables supprimées \n");
