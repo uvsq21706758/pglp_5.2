@@ -10,6 +10,7 @@ import java.sql.Statement;
 
 public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
 
+	
     public Numero_telephoneDAOJDBC() throws SQLException {
 		super();
 	}
@@ -94,6 +95,7 @@ public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
 	}
 	public void droptable() throws SQLException {
     	Statement stmt = getConnect().createStatement();
+    	stmt.execute("DROP TABLE Association");
     	stmt.execute("DROP TABLE Telephones");
     	stmt.close();
     	

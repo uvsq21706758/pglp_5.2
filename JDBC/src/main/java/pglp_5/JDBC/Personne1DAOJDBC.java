@@ -10,10 +10,11 @@ import java.sql.Statement;
 
 public class Personne1DAOJDBC extends DAO<Personne1>{
 	
-
+	private DAO<Numero_telephone> numJDBC;
+	
 	public Personne1DAOJDBC() throws SQLException, IOException {
 		super();
-
+		numJDBC = new DAOFactoryJDBC().getNumero_telephoneDAO();
 	}
 	
 	public void createtable() throws SQLException {
@@ -39,7 +40,7 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
 	            stmt.close();
    }
 	 
-	 public void createassoc(Personne1 obj,Numero_telephone objt) throws SQLException {
+	 public void createassoc(int obj,int objt) throws SQLException {
 	   	 DatabaseMetaData dbmd = getConnect().getMetaData();
 	        ResultSet rs = dbmd.getTables(null, null,"Association".toUpperCase(), null);
 		 String assoc="Create Table Association"
@@ -55,7 +56,7 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
 		  stmt.execute(assoc);
           }
           stmt.executeUpdate("insert into Association values ("
-                  + obj.getId() + "," + objt.getId() + ")");
+                  + obj + "," + objt + ")");
           rs.close();
           stmt.close();
 	 }
@@ -72,6 +73,11 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
          prpstmt.setDate(5, Date.valueOf(obj.getDate_naissance()));
          prpstmt.executeUpdate();
          prpstmt.close();
+         for (Numero_telephone num : obj.getNumero_telephone()) {
+        	 ((Numero_telephoneDAOJDBC) numJDBC).createtable();
+             numJDBC.create(num);
+             this.createassoc(obj.getId(), num.getId());
+         }
           return obj;
 	}
 
