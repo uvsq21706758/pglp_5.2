@@ -12,10 +12,26 @@ public class Groupe implements Composite, Serializable{
 
 	private ArrayList<Composite> personnes = new ArrayList<Composite>();
 	
+	public ArrayList<Composite> getPersonnes() {
+		return personnes;
+	}
 	private String nom;
     
-    public Groupe(final String nom) {
+	private int id;
+	
+    public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	public Groupe( int id, String nom) {
         this.nom = nom;
+        this.id=id;
     }
    
     

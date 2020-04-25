@@ -38,54 +38,6 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
 	            rs.close();
 	            stmt.close();
    }
-	 public void droptable() throws SQLException {
-	    	Statement stmt = getConnect().createStatement();
-	    	stmt.execute("DROP TABLE Association");
-	    	stmt.execute("DROP TABLE Personnes");
-	    	stmt.close();
-	    	System.out.println("Tables supprimées \n");
-	    	
-	    }
-	 public void affichetable() throws SQLException {
-	    	DatabaseMetaData dbmd = getConnect().getMetaData();
-	        ResultSet rs = dbmd.getTables(null, null,"Personnes".toUpperCase(), null);
-	        Statement stmt = getConnect().createStatement();
-	        
-	    	rs = stmt.executeQuery("SELECT * FROM Personnes");
-
-	         System.out.println("Table Personnes: \n");
-	         System.out.println("id_perso\t nom\t prenom\t fonction\t date naissance");
-	         while (rs.next()) {
-	             System.out.printf("%d\t%s \t%s\t %s\t %s%n", rs.getInt("id_perso"),
-	                     rs.getString("nom"), rs.getString("prenom"),
-	                     rs.getString("fonction"),rs.getString("date_naissance"));
-	         }
-	         rs.close();
-	         stmt.close();
-	      
-	    }
-	 public void afficheassoc() throws SQLException {
-		 DatabaseMetaData dbmd = getConnect().getMetaData();
-	       Statement exist = getConnect().createStatement();
-	            ResultSet rsEx = dbmd.getTables(null, null,"Association".toUpperCase(),
-	                    null);
-	            if (rsEx.next()) {
-	                Statement stmt = getConnect().createStatement();
-	                    ResultSet rs = stmt.executeQuery("SELECT *"
-	                            + " FROM Association");
-	                        System.out.println("Table Association:\n");
-	                        System.out.println("id_perso\t id_num\t");
-	                        while (rs.next()) {
-	                            System.out.printf("%d\t\t%d\t%n",
-	                                    rs.getInt("id_perso"),
-	                                    rs.getInt("id_num"));
-	                        }
-	                        
-	                        rs.close();
-	                    }
-	                
-	          
-	 }
 	 
 	 public void createassoc(Personne1 obj,Numero_telephone objt) throws SQLException {
 	   	 DatabaseMetaData dbmd = getConnect().getMetaData();
@@ -170,5 +122,51 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
             rs.close();
             stmt.close();
 	}
+	 public void droptable() throws SQLException {
+	    	Statement stmt = getConnect().createStatement();
+	    	stmt.execute("DROP TABLE Association");
+	    	stmt.execute("DROP TABLE Personnes");
+	    	stmt.close();
+	    	System.out.println("Tables supprimées \n");
+	    	
+	    }
+	 public void affichetable() throws SQLException {
+	    	DatabaseMetaData dbmd = getConnect().getMetaData();
+	        ResultSet rs = dbmd.getTables(null, null,"Personnes".toUpperCase(), null);
+	        Statement stmt = getConnect().createStatement();
+	        
+	    	rs = stmt.executeQuery("SELECT * FROM Personnes");
 
+	         System.out.println("Table Personnes: \n");
+	         System.out.println("id_perso\t nom\t prenom\t fonction\t date naissance");
+	         while (rs.next()) {
+	             System.out.printf("%d\t%s \t%s\t %s\t %s%n", rs.getInt("id_perso"),
+	                     rs.getString("nom"), rs.getString("prenom"),
+	                     rs.getString("fonction"),rs.getString("date_naissance"));
+	         }
+	         rs.close();
+	         stmt.close();
+	      
+	    }
+	 public void afficheassoc() throws SQLException {
+		 DatabaseMetaData dbmd = getConnect().getMetaData();
+	            ResultSet rsEx = dbmd.getTables(null, null,"Association".toUpperCase(),
+	                    null);
+	            if (rsEx.next()) {
+	                Statement stmt = getConnect().createStatement();
+	                    ResultSet rs = stmt.executeQuery("SELECT *"
+	                            + " FROM Association");
+	                        System.out.println("Table Association:\n");
+	                        System.out.println("id_perso\t id_num\t");
+	                        while (rs.next()) {
+	                            System.out.printf("%d\t\t%d\t%n",
+	                                    rs.getInt("id_perso"),
+	                                    rs.getInt("id_num"));
+	                        }
+	                        
+	                        rs.close();
+	                    }
+	                
+	          
+	 }
 }

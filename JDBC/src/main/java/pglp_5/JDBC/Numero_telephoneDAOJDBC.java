@@ -31,31 +31,7 @@ public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
 	            rs.close();
 	            stmt.close();
     }
-    public void droptable() throws SQLException {
-    	Statement stmt = getConnect().createStatement();
-    	stmt.execute("DROP TABLE Telephones");
-    	stmt.close();
-    	
-    }
-    public void affichetable() throws SQLException {
-    	DatabaseMetaData dbmd = getConnect().getMetaData();
-        ResultSet rs = dbmd.getTables(null, null,"Telephones".toUpperCase(), null);
-        Statement stmt = getConnect().createStatement();
-        
-    	rs = stmt.executeQuery("SELECT * FROM Telephones");
-
-         System.out.println("Table Telephones: \n");
-         System.out.println("id_num\t type\t numero");
-         while (rs.next()) {
-             System.out.printf("%d\t%s\t%s%n", rs.getInt("id_num"),
-                     rs.getString("type"), rs.getString("numero"));
-         }
-         rs.close();
-         stmt.close();
-      
-    }
-
-	@Override
+    	@Override
 	public Numero_telephone create(Numero_telephone obj) throws IOException, SQLException {
 		       String insertnum= ("insert into Telephones"
 	                        + " values (?, ?, ?)");
@@ -109,11 +85,37 @@ public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
 		 Statement stmt = getConnect().createStatement();
          ResultSet rs = stmt.executeQuery("select * from Telephones where id_num=" + obj.getId());
              if (rs.next()) {
+            	 stmt.executeUpdate("delete from Association where id_num="+obj.getId());
             	  stmt.executeUpdate("delete from Telephones where id_num="+obj.getId());
              	 System.out.printf("Ligne supprimée \n");
              rs.close();
              stmt.close();
 	}
 	}
+	public void droptable() throws SQLException {
+    	Statement stmt = getConnect().createStatement();
+    	stmt.execute("DROP TABLE Telephones");
+    	stmt.close();
+    	
+    }
+    public void affichetable() throws SQLException {
+    	DatabaseMetaData dbmd = getConnect().getMetaData();
+        ResultSet rs = dbmd.getTables(null, null,"Telephones".toUpperCase(), null);
+        Statement stmt = getConnect().createStatement();
+        
+    	rs = stmt.executeQuery("SELECT * FROM Telephones");
+
+         System.out.println("Table Telephones: \n");
+         System.out.println("id_num\t type\t numero");
+         while (rs.next()) {
+             System.out.printf("%d\t%s\t%s%n", rs.getInt("id_num"),
+                     rs.getString("type"), rs.getString("numero"));
+         }
+         rs.close();
+         stmt.close();
+      
+    }
+
+
 
 }
