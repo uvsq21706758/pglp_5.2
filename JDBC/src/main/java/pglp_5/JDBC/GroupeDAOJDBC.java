@@ -14,9 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class GroupeDAOJDBC extends DAO<Groupe>{
+public class GroupeDAOJDBC extends DAOJDBC<Groupe>{
 	
-	private DAO<Personne1> persoJDBC;
+	private DAOJDBC<Personne1> persoJDBC;
 	
 	public GroupeDAOJDBC() throws SQLException, IOException {
 		super();

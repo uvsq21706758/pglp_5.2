@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
+public class Numero_telephoneDAOJDBC extends DAOJDBC<Numero_telephone>{
 
 	
     public Numero_telephoneDAOJDBC() throws SQLException {

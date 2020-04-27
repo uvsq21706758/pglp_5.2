@@ -9,7 +9,7 @@ import pglp_5.JDBC.Personne1.Builder;
 public class App {
 
 	  public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException  {
-		   DAO<Numero_telephone> numjdbc;
+		   DAOJDBC<Numero_telephone> numjdbc;
 		   Numero_telephone portable =new Numero_telephone(1,"062345667", "portable");
 		   Numero_telephone portable1 =new Numero_telephone(2,"056778889", "fix");
 		   numjdbc = DAOFactoryJDBC.getNumero_telephoneDAO();
@@ -22,7 +22,7 @@ public class App {
 		   //numjdbc.delete(portable);
 		  
 		   
-		  DAO<Personne1> persojdbc;
+		  DAOJDBC<Personne1> persojdbc;
 		    Builder b = new Builder(1,"El gaamouss", "manale", "employee",LocalDate.of(1996, 8, 27));
 		   persojdbc=DAOFactoryJDBC.getPersonne1DAO();
 		   b.Num_telephone(portable);
@@ -37,7 +37,7 @@ public class App {
 		  // ((Personne1DAOJDBC) persojdbc).afficheassoc();
 		   //persojdbc.delete(p);*/
 		   
-		   DAO<Groupe> grpJDBC =new DAOFactoryJDBC().getGroupe();
+		   DAOJDBC<Groupe> grpJDBC =new DAOFactoryJDBC().getGroupe();
 		
 	       
 	        Groupe departement =new Groupe(1,"Departement");

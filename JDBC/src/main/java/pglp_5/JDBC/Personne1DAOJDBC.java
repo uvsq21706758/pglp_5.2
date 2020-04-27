@@ -8,9 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Personne1DAOJDBC extends DAO<Personne1>{
+public class Personne1DAOJDBC extends DAOJDBC<Personne1>{
 	
-	private DAO<Numero_telephone> numJDBC;
+	private DAOJDBC<Numero_telephone> numJDBC;
 	
 	public Personne1DAOJDBC() throws SQLException, IOException {
 		super();
