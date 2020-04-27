@@ -27,10 +27,11 @@ public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
 	         Statement stmt = getConnect().createStatement();
 	            if (!rs.next()) {
 	            	stmt.execute(createtel);
+	            	System.out.println("Table Telephones crée");
+		            rs.close();
+		            stmt.close();
 	            }	
-	            System.out.println("Table Telephones crée");
-	            rs.close();
-	            stmt.close();
+	           
     }
     	@Override
 	public Numero_telephone create(Numero_telephone obj) throws IOException, SQLException {
@@ -64,6 +65,9 @@ public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
                         rs.close();
                         stmt.close();
                     }
+                        else {
+        	            	System.out.println("identifiant introuvable!");
+        	            }
        return num;
 		  
 	}
@@ -76,8 +80,12 @@ public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
 	                	this.delete(obj);
 	                    this.create(obj);
 	                    System.out.println("La mise à jour du table Telephones effectuée");
-	                }
-	                stmt.close();
+	               stmt.close();
+	               }
+	                else {
+		            	System.out.println("Mise à jour impossible,identiant n'existe pas encore");
+		            }
+	                
 	                return obj;
 	}
 
@@ -92,6 +100,9 @@ public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
              rs.close();
              stmt.close();
 	}
+             else {
+	            	System.out.println("Suppression impossible,identifiant introuvable!");
+	            }
 	}
 	public void droptable() throws SQLException {
     	Statement stmt = getConnect().createStatement();
@@ -103,10 +114,10 @@ public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
     }
     public void affichetable() throws SQLException {
     	DatabaseMetaData dbmd = getConnect().getMetaData();
-        ResultSet rs = dbmd.getTables(null, null,"Telephones".toUpperCase(), null);
+        ResultSet rst = dbmd.getTables(null, null,"Telephones".toUpperCase(), null);
         Statement stmt = getConnect().createStatement();
-        
-    	rs = stmt.executeQuery("SELECT * FROM Telephones");
+        if(rst.next()) {
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Telephones");
 
          System.out.println("Table Telephones: \n");
          System.out.println("id_num\t type\t numero");
@@ -116,7 +127,9 @@ public class Numero_telephoneDAOJDBC extends DAO<Numero_telephone>{
          }
          rs.close();
          stmt.close();
-      
+        } else {
+         	System.out.println("Table vide!");
+         }
     }
 
 

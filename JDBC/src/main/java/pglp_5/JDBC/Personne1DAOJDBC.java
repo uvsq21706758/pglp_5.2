@@ -95,6 +95,8 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
             	         
                         rs.close();
                         stmt.close();
+                    }else {
+                    	System.out.println("identifiant introuvable!");
                     }
        return perso;
         
@@ -108,8 +110,12 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
 	                	this.delete(obj);
 	                    this.create(obj);
 	                    System.out.println("La mise à jour du table Personnes effectuée");
-	                }
-	                stmt.close();
+	                    result.close();
+	                    stmt.close();
+	                }else {
+                    	System.out.println("Pas de mise à jour,l'identifiant inexistant!");
+                    }
+	                
 	                return obj;
 	}
 
@@ -123,11 +129,14 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
               stmt.executeUpdate("delete from persoingroupe where id_perso="+obj.getId());
               stmt.executeUpdate("delete from Telephones where id_num="+id_num);
            	  stmt.executeUpdate("delete from Personnes where id_perso="+obj.getId());
-            	 System.out.printf("Ligne supprimée \n");
-           
-            }
-            rs.close();
+            	rs.close();
             stmt.close();
+           	  System.out.printf("Ligne supprimée \n");
+           
+            }else {
+            	System.out.println("suppression impossible,identifiant introuvable!");
+            }
+            
 	}
 	 public void droptable() throws SQLException {
 	    	Statement stmt = getConnect().createStatement();
@@ -140,10 +149,10 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
 	    }
 	 public void affichetable() throws SQLException {
 	    	DatabaseMetaData dbmd = getConnect().getMetaData();
-	        ResultSet rs = dbmd.getTables(null, null,"Personnes".toUpperCase(), null);
+	        ResultSet rst = dbmd.getTables(null, null,"Personnes".toUpperCase(), null);
 	        Statement stmt = getConnect().createStatement();
-	        
-	    	rs = stmt.executeQuery("SELECT * FROM Personnes");
+	        if(rst.next()){
+	    	ResultSet rs = stmt.executeQuery("SELECT * FROM Personnes");
 
 	         System.out.println("Table Personnes: \n");
 	         System.out.println("id_perso\t nom\t prenom\t fonction\t date naissance");
@@ -154,13 +163,16 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
 	         }
 	         rs.close();
 	         stmt.close();
+	 }else {
+             	System.out.println("Table vide!");
+             }
 	      
 	    }
 	 public void afficheassoc() throws SQLException {
 		 DatabaseMetaData dbmd = getConnect().getMetaData();
-	            ResultSet rsEx = dbmd.getTables(null, null,"Association".toUpperCase(),
+	            ResultSet rst = dbmd.getTables(null, null,"Association".toUpperCase(),
 	                    null);
-	            if (rsEx.next()) {
+	            if (rst.next()) {
 	                Statement stmt = getConnect().createStatement();
 	                    ResultSet rs = stmt.executeQuery("SELECT *"
 	                            + " FROM Association");
@@ -174,6 +186,9 @@ public class Personne1DAOJDBC extends DAO<Personne1>{
 	                        
 	                        rs.close();
 	                    }
+	         else {
+                	System.out.println("Table vide!");
+                }
 	                
 	          
 	 }

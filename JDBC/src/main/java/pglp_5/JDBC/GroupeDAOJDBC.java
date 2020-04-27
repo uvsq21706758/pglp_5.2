@@ -127,6 +127,8 @@ public class GroupeDAOJDBC extends DAO<Groupe>{
      	                            rs.getString("nom"));
                         rs.close();
                         stmt.close();
+                    }else {
+                     	System.out.println("Identifiant introuvable!");
                     }
        return grp;
            
@@ -142,8 +144,12 @@ public class GroupeDAOJDBC extends DAO<Groupe>{
 	                	this.delete(obj);
 	                    this.create(obj);
 	                    System.out.println("La mise à jour du Groupe effectuée");
-	                }
+	               result.close();
 	                stmt.close();
+	                }else {
+                     	System.out.println("Mise à ajour impossible,Identifiant introuvable!");
+                    }
+	                
 	               
         return obj;
 	}
@@ -157,11 +163,14 @@ public class GroupeDAOJDBC extends DAO<Groupe>{
             	stmt.executeUpdate("delete from groupeingrp where id_grp="+obj.getId());
             	stmt.executeUpdate("delete from persoingroupe where id_grp="+obj.getId());
            	  stmt.executeUpdate("delete from Groupe where id_grp="+obj.getId());
-            	 System.out.printf("Ligne supprimée \n");
-           
-            }
-            rs.close();
+            	 rs.close();
             stmt.close();
+           	  System.out.printf("Ligne supprimée \n");
+      
+            }else {
+             	System.out.println("Suppression impossible,Identifiant introuvable!");
+            }
+            
 	}
 	public void droptable() throws SQLException {
 		Statement stmt = getConnect().createStatement();
@@ -175,10 +184,10 @@ public class GroupeDAOJDBC extends DAO<Groupe>{
 	public void affichetable() throws SQLException {
 		 DatabaseMetaData dbmd = getConnect().getMetaData();
 
-	        ResultSet rs = dbmd.getTables(null, null,"Groupe".toUpperCase(), null);
+	        ResultSet rst = dbmd.getTables(null, null,"Groupe".toUpperCase(), null);
 	        Statement stmt = getConnect().createStatement();
-	        
-	    	rs = stmt.executeQuery("SELECT * FROM Groupe");
+	        if(rst.next()) {
+	    	ResultSet rs = stmt.executeQuery("SELECT * FROM Groupe");
 
 	         System.out.println("Table Groupe: \n");
 	         System.out.println("id_grp\t nom");
@@ -188,12 +197,15 @@ public class GroupeDAOJDBC extends DAO<Groupe>{
 	         }
 	         rs.close();
 	         stmt.close();
+	        }else {
+             	System.out.println("Table vide!");
+            }
 	}
 	public void affichegrpparsousgrp() throws SQLException {
 		 DatabaseMetaData dbmd = getConnect().getMetaData();
-         ResultSet rsEx = dbmd.getTables(null, null,"groupeingrp".toUpperCase(),
+         ResultSet rst = dbmd.getTables(null, null,"groupeingrp".toUpperCase(),
                  null);
-         if (rsEx.next()) {
+         if (rst.next()) {
              Statement stmt = getConnect().createStatement();
                  ResultSet rs = stmt.executeQuery("SELECT *"
                          + " FROM groupeingrp");
@@ -204,16 +216,18 @@ public class GroupeDAOJDBC extends DAO<Groupe>{
                                  rs.getInt("id_grp"),
                                  rs.getInt("id_sousgrp"));
                      }
-                     
+                     stmt.close();
                      rs.close();
-                 }	
+                 }	else {
+                  	System.out.println("Table vide!");
+                 }
 		
 	}
 	public void affichepersopargrp() throws SQLException {
 		 DatabaseMetaData dbmd = getConnect().getMetaData();
-         ResultSet rsEx = dbmd.getTables(null, null,"persoingroupe".toUpperCase(),
+         ResultSet rst = dbmd.getTables(null, null,"persoingroupe".toUpperCase(),
                  null);
-         if (rsEx.next()) {
+         if (rst.next()) {
              Statement stmt = getConnect().createStatement();
                  ResultSet rs = stmt.executeQuery("SELECT *"
                          + " FROM persoingroupe");
@@ -224,8 +238,10 @@ public class GroupeDAOJDBC extends DAO<Groupe>{
                                  rs.getInt("id_grp"),
                                  rs.getInt("id_perso"));
                      }
-                     
+                     stmt.close();
                      rs.close();
-                 }	
+                 }	else {
+                  	System.out.println("Table vide!");
+                 }
 	}
 }
